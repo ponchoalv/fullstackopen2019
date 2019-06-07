@@ -37,7 +37,7 @@ All necessary information for doing this, and the next three exercises, can be f
 
 ### Secuence Diagram Image:
 
-![excercice 0.4 new note](4_new_note.png)
+![excercice 0.4 new note - Diagram](4_new_note.png)
 
 ### Secuence Diagram Code:
 
