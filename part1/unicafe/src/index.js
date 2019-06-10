@@ -6,12 +6,18 @@ const Button = ({label, handleClick}) => (
   <button onClick={handleClick}>{label}</button>
 )
 
-const Statistic = ({label, quantity, percent=false}) => {
-  if(percent){
-    return (<p>{label + ' ' + quantity} %</p>)
-  }
-  return (<p>{label + ' ' + quantity}</p>)
-}
+const Statistic = ({label, quantity, percent=false}) => (
+    <tr>
+      <td>
+        {label}
+      </td>
+      <td>
+        {quantity +''+ (percent ? ' %' : '')}
+      </td>
+    </tr>
+)
+  
+
 
 const Statistics = ({good, neutral, bad}) => {
   const total = good + neutral + bad
@@ -23,14 +29,16 @@ const Statistics = ({good, neutral, bad}) => {
   }
 
   return (
-    <>
-    <Statistic label='good' quantity={good}/>
-    <Statistic label='neutral' quantity={neutral}/>
-    <Statistic label='bad' quantity={bad}/>
-    <Statistic label='all' quantity={total}/>
-    <Statistic label='average' quantity={average}/>
-    <Statistic label='positive' quantity={positive} percent/>
-    </>
+    <table>
+      <tbody>
+        <Statistic label='good' quantity={good}/>
+        <Statistic label='neutral' quantity={neutral}/>
+        <Statistic label='bad' quantity={bad}/>
+        <Statistic label='all' quantity={total}/>
+        <Statistic label='average' quantity={average}/>
+        <Statistic label='positive' quantity={positive} percent/>
+      </tbody>
+    </table>
   )
 
 }
