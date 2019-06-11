@@ -5,7 +5,7 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const ShowAnecdote = ({anecdote, votes}) => (
+const ShowAnecdote = ({ anecdote, votes }) => (
   <>
     <p>{anecdote}</p>
     <p>has {votes} votes</p>
@@ -22,7 +22,7 @@ const App = props => {
   const selectedAnecdote = props.anecdotes[selected];
   const selectedVotes = votes[selected];
 
-  const anedotKeyMostVoted = votes.indexOf(Math.max.apply(null, votes))
+  const anedotKeyMostVoted = votes.indexOf(Math.max(...votes));
   const anecdotMostVoted = props.anecdotes[anedotKeyMostVoted];
   const mostVotes = votes[anedotKeyMostVoted];
 
