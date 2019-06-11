@@ -22,9 +22,9 @@ const App = props => {
   const selectedAnecdote = props.anecdotes[selected];
   const selectedVotes = votes[selected];
 
-  const anedoteKeyMostVoted = votes.indexOf(Math.max.apply(null, votes))
-  const anedotetMostVoted = props.anecdotes[anedoteKeyMostVoted];
-  const mostVotes = votes[anedoteKeyMostVoted];
+  const anedotKeyMostVoted = votes.indexOf(Math.max.apply(null, votes))
+  const anecdotMostVoted = props.anecdotes[anedotKeyMostVoted];
+  const mostVotes = votes[anedotKeyMostVoted];
 
   const vote = selected => () => {
     const newVotes = [...votes];
@@ -42,7 +42,7 @@ const App = props => {
       <Button handleClick={vote(selected)} text="vote" />
       <Button handleClick={randomNumberSelected} text="next anecdote" />
       <h1>Anecdote with most votes</h1>
-      <ShowAnecdote anecdote={anedotetMostVoted} votes={mostVotes} />
+      <ShowAnecdote anecdote={anecdotMostVoted} votes={mostVotes} />
     </div>
   );
 };
