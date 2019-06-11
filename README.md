@@ -7,6 +7,6 @@ Course material: [https://fullstackopen.com/](https://fullstackopen.com/)
 3. [Excercice 0.6: New Note SPA](6_new_note_spa.md)
 
 ## Part 1
-1. [Course Info](courseinfo)
-2. [Unicafe](unicafe)
-3. [Anecdotes](anecdotes)
+1. [Course Info](part1/courseinfo)
+2. [Unicafe](part1/unicafe)
+3. [Anecdotes](part1/anecdotes)
