@@ -10,3 +10,8 @@ Course material: [https://fullstackopen.com/](https://fullstackopen.com/)
 1. [Course Info](part1/courseinfo)
 2. [Unicafe](part1/unicafe)
 3. [Anecdotes](part1/anecdotes)
+
+## Part 2
+1. [Countries](part2/countries)
+2. [Course Info](part2/courseinfo)
+3. [Phonebook](part2/phonebook)
