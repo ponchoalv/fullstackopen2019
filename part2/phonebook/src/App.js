@@ -42,7 +42,7 @@ const App = () => {
     event.preventDefault();
 
     const existingPerson = persons.find(person =>
-      person.name.includes(newName)
+      person.trim().toLowerCase() === newName.trim().toLowerCase()
     );
 
     const newPerson = {
@@ -79,6 +79,9 @@ const App = () => {
       personsService.create(newPerson).then(person => {
         setPersons(persons.concat(person));
         setNotification(`Added ${person.name}`, "successful");
+      })
+      .catch(error => {
+        setNotification(error.error);
       });
     }
   };
