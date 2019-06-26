@@ -20,7 +20,7 @@ const App = () => {
     setNotificationClassName(className);
     setTimeout(() => {
       setNotificationMessage(null);
-    }, 2000);
+    }, 5000);
   };
 
   const filteredPersons =
@@ -42,7 +42,7 @@ const App = () => {
     event.preventDefault();
 
     const existingPerson = persons.find(person =>
-      person.trim().toLowerCase() === newName.trim().toLowerCase()
+      person.name.trim().toLowerCase() === newName.trim().toLowerCase()
     );
 
     const newPerson = {
@@ -81,7 +81,7 @@ const App = () => {
         setNotification(`Added ${person.name}`, "successful");
       })
       .catch(error => {
-        setNotification(error.error);
+        setNotification(error.response.data.error, 'error');
       });
     }
   };
