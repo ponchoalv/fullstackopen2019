@@ -18,3 +18,6 @@ Course material: [https://fullstackopen.com/](https://fullstackopen.com/)
 
 ## Part 3
 1. [Phonebook Backend](part3/phonebook-backend)
+
+## Part 4
+1. [BlogList](part4/blog-list)

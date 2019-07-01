@@ -1,0 +1,9 @@
+post http://localhost:3001/api/blogs HTTP/1.1
+content-type: application/json
+
+{
+  "title": "El hacedor de estrellas",
+  "author": "Olaf Stapledon",
+  "url": "http://localhost:3001/pepito",
+  "likes": 249
+}
