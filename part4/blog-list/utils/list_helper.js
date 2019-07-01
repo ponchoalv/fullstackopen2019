@@ -2,20 +2,23 @@ const dummy = blogs => {
   return 1
 }
 
+const groupBy = (xs, key) =>
+  xs.reduce((rv, x) => {
+    (rv[x[key]] = rv[x[key]] || []).push(x)
+    return rv
+  }, {})
+
+const maxBy = (xs, key) =>
+  xs.reduce((lastMax, currentValue) =>
+    lastMax[key] >= currentValue[key]
+      ? lastMax
+      : currentValue, {})
+
 const totalLikes = blogs =>
   blogs.reduce((previous, current) => previous + current.likes, 0)
 
 const favoriteBlog = blogs =>
-  blogs.reduce((lastMax, current) =>
-    lastMax.likes >= current.likes
-      ? lastMax
-      : current, {})
-
-const groupBy = (xs, key) =>
-  xs.reduce(function(rv, x) {
-    (rv[x[key]] = rv[x[key]] || []).push(x)
-    return rv
-  }, {})
+  maxBy(blogs, 'likes')
 
 const mostBlogs = blogs => {
   const authorGrouped = Object.entries(groupBy(blogs, 'author')).map(author => {
@@ -25,10 +28,7 @@ const mostBlogs = blogs => {
     }
   })
 
-  return authorGrouped.reduce((lastMax, current) =>
-    lastMax.blogs >= current.blogs
-      ? lastMax
-      : current, {})
+  return maxBy(authorGrouped,'blogs')
 }
 
 const mostLikes = blogs => {
@@ -39,10 +39,7 @@ const mostLikes = blogs => {
     }
   })
 
-  return authorGrouped.reduce((lastMax, current) =>
-    lastMax.likes >= current.likes
-      ? lastMax
-      : current, {})
+  return favoriteBlog(authorGrouped)
 }
 
 module.exports = {
