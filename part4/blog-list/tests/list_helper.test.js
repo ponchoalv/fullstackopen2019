@@ -1,4 +1,11 @@
+const mongoose = require('mongoose')
 const listHelper = require('../utils/list_helper')
+const supertest = require('supertest')
+const helper = require('./test_helper')
+const app = require('../app')
+const Blog = require('../models/blog')
+
+const api = supertest(app)
 
 test('dummy returns one', () => {
   const blogs = []
@@ -9,112 +16,30 @@ test('dummy returns one', () => {
 })
 
 describe('total likes', () => {
-  const emptyBlogList = []
-
   test('of empety list is zero', () => {
-    const result = listHelper.totalLikes(emptyBlogList)
+    const result = listHelper.totalLikes([])
     expect(result).toBe(0)
   })
 
-  const listWithOneBlog = [
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url:
-        'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
-      __v: 0
-    }
-  ]
-
   test('when list has only one blog equals the likes of that', () => {
-    const result = listHelper.totalLikes(listWithOneBlog)
+    const result = listHelper.totalLikes(helper.listWithOneBlog)
     expect(result).toBe(5)
   })
 
-  const blogs = [
-    {
-      _id: '5a422a851b54a676234d17f7',
-      title: 'React patterns',
-      author: 'Michael Chan',
-      url: 'https://reactpatterns.com/',
-      likes: 7,
-      __v: 0
-    },
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url:
-        'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
-      __v: 0
-    },
-    {
-      _id: '5a422b3a1b54a676234d17f9',
-      title: 'Canonical string reduction',
-      author: 'Edsger W. Dijkstra',
-      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-      likes: 12,
-      __v: 0
-    },
-    {
-      _id: '5a422b891b54a676234d17fa',
-      title: 'First class tests',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
-      likes: 10,
-      __v: 0
-    },
-    {
-      _id: '5a422ba71b54a676234d17fb',
-      title: 'TDD harms architecture',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-      likes: 0,
-      __v: 0
-    },
-    {
-      _id: '5a422bc61b54a676234d17fc',
-      title: 'Type wars',
-      author: 'Robert C. Martin',
-      url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-      likes: 2,
-      __v: 0
-    }
-  ]
-
   test('of a bigger list is calculated right', () => {
-    const result = listHelper.totalLikes(blogs)
+    const result = listHelper.totalLikes(helper.initialBlogs)
     expect(result).toBe(36)
   })
 })
 
 describe('favorite blog', () => {
-  const emptyBlogList = []
-
   test('of empety list empty {}', () => {
-    const result = listHelper.favoriteBlog(emptyBlogList)
+    const result = listHelper.favoriteBlog([])
     expect(result).toEqual({})
   })
 
-  const listWithOneBlog = [
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url:
-        'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
-      __v: 0
-    }
-  ]
-
   test('when list has only one blog equals that one', () => {
-    const result = listHelper.favoriteBlog(listWithOneBlog)
+    const result = listHelper.favoriteBlog(helper.listWithOneBlog)
     expect(result).toEqual({
       _id: '5a422aa71b54a676234d17f8',
       title: 'Go To Statement Considered Harmful',
@@ -125,63 +50,9 @@ describe('favorite blog', () => {
       __v: 0
     })
   })
-
-  const blogs = [
-    {
-      _id: '5a422a851b54a676234d17f7',
-      title: 'React patterns',
-      author: 'Michael Chan',
-      url: 'https://reactpatterns.com/',
-      likes: 7,
-      __v: 0
-    },
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url:
-        'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
-      __v: 0
-    },
-    {
-      _id: '5a422b3a1b54a676234d17f9',
-      title: 'Canonical string reduction',
-      author: 'Edsger W. Dijkstra',
-      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-      likes: 12,
-      __v: 0
-    },
-    {
-      _id: '5a422b891b54a676234d17fa',
-      title: 'First class tests',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
-      likes: 10,
-      __v: 0
-    },
-    {
-      _id: '5a422ba71b54a676234d17fb',
-      title: 'TDD harms architecture',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-      likes: 0,
-      __v: 0
-    },
-    {
-      _id: '5a422bc61b54a676234d17fc',
-      title: 'Type wars',
-      author: 'Robert C. Martin',
-      url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-      likes: 2,
-      __v: 0
-    }
-  ]
 
   test('of a bigger list is calculated right', () => {
-    const result = listHelper.favoriteBlog(blogs)
+    const result = listHelper.favoriteBlog(helper.initialBlogs)
     expect(result).toEqual({
       _id: '5a422b3a1b54a676234d17f9',
       title: 'Canonical string reduction',
@@ -192,62 +63,8 @@ describe('favorite blog', () => {
     })
   })
 
-  const blogsWithToMax = [
-    {
-      _id: '5a422a851b54a676234d17f7',
-      title: 'React patterns',
-      author: 'Michael Chan',
-      url: 'https://reactpatterns.com/',
-      likes: 7,
-      __v: 0
-    },
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url:
-        'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 12,
-      __v: 0
-    },
-    {
-      _id: '5a422b3a1b54a676234d17f9',
-      title: 'Canonical string reduction',
-      author: 'Edsger W. Dijkstra',
-      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-      likes: 12,
-      __v: 0
-    },
-    {
-      _id: '5a422b891b54a676234d17fa',
-      title: 'First class tests',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
-      likes: 10,
-      __v: 0
-    },
-    {
-      _id: '5a422ba71b54a676234d17fb',
-      title: 'TDD harms architecture',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-      likes: 0,
-      __v: 0
-    },
-    {
-      _id: '5a422bc61b54a676234d17fc',
-      title: 'Type wars',
-      author: 'Robert C. Martin',
-      url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-      likes: 2,
-      __v: 0
-    }
-  ]
-
   test('of a bigger list and two max are provided', () => {
-    const result = listHelper.favoriteBlog(blogsWithToMax)
+    const result = listHelper.favoriteBlog(helper.blogsWithTwoMax)
     expect(result).toEqual({
       _id: '5a422aa71b54a676234d17f8',
       title: 'Go To Statement Considered Harmful',
@@ -266,81 +83,16 @@ describe('author with most number of blogs', () => {
     expect(result).toEqual({})
   })
 
-  const listWithOneBlog = [
-    {
-      _id: '5a422a851b54a676234d17f7',
-      title: 'React patterns',
-      author: 'Michael Chan',
-      url: 'https://reactpatterns.com/',
-      likes: 7,
-      __v: 0
-    }
-  ]
-
   test('when list has only one blog equals that one', () => {
-    const result = listHelper.mostBlogs(listWithOneBlog)
+    const result = listHelper.mostBlogs(helper.listWithOneBlog)
     expect(result).toEqual({
-      author: 'Michael Chan',
+      author: 'Edsger W. Dijkstra',
       blogs: 1
     })
   })
 
-  const blogs = [
-    {
-      _id: '5a422a851b54a676234d17f7',
-      title: 'React patterns',
-      author: 'Michael Chan',
-      url: 'https://reactpatterns.com/',
-      likes: 7,
-      __v: 0
-    },
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url:
-        'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
-      __v: 0
-    },
-    {
-      _id: '5a422b3a1b54a676234d17f9',
-      title: 'Canonical string reduction',
-      author: 'Edsger W. Dijkstra',
-      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-      likes: 12,
-      __v: 0
-    },
-    {
-      _id: '5a422b891b54a676234d17fa',
-      title: 'First class tests',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
-      likes: 10,
-      __v: 0
-    },
-    {
-      _id: '5a422ba71b54a676234d17fb',
-      title: 'TDD harms architecture',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-      likes: 0,
-      __v: 0
-    },
-    {
-      _id: '5a422bc61b54a676234d17fc',
-      title: 'Type wars',
-      author: 'Robert C. Martin',
-      url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-      likes: 2,
-      __v: 0
-    }
-  ]
-
   test('author with bigger number of published blogs on big list', () => {
-    const result = listHelper.mostBlogs(blogs)
+    const result = listHelper.mostBlogs(helper.initialBlogs)
     expect(result).toEqual({
       author: 'Robert C. Martin',
       blogs: 3
@@ -354,84 +106,91 @@ describe('author most liked', () => {
     expect(result).toEqual({})
   })
 
-  const listWithOneBlog = [
-    {
-      _id: '5a422a851b54a676234d17f7',
-      title: 'React patterns',
-      author: 'Michael Chan',
-      url: 'https://reactpatterns.com/',
-      likes: 7,
-      __v: 0
-    }
-  ]
-
   test('when list has only one blog equals that one', () => {
-    const result = listHelper.mostLikes(listWithOneBlog)
+    const result = listHelper.mostLikes(helper.listWithOneBlog)
     expect(result).toEqual({
-      author: 'Michael Chan',
-      likes: 7
+      author: 'Edsger W. Dijkstra',
+      likes: 5
     })
   })
 
-  const blogs = [
-    {
-      _id: '5a422a851b54a676234d17f7',
-      title: 'React patterns',
-      author: 'Michael Chan',
-      url: 'https://reactpatterns.com/',
-      likes: 7,
-      __v: 0
-    },
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url:
-        'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
-      __v: 0
-    },
-    {
-      _id: '5a422b3a1b54a676234d17f9',
-      title: 'Canonical string reduction',
-      author: 'Edsger W. Dijkstra',
-      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-      likes: 12,
-      __v: 0
-    },
-    {
-      _id: '5a422b891b54a676234d17fa',
-      title: 'First class tests',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
-      likes: 10,
-      __v: 0
-    },
-    {
-      _id: '5a422ba71b54a676234d17fb',
-      title: 'TDD harms architecture',
-      author: 'Robert C. Martin',
-      url:
-        'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-      likes: 0,
-      __v: 0
-    },
-    {
-      _id: '5a422bc61b54a676234d17fc',
-      title: 'Type wars',
-      author: 'Robert C. Martin',
-      url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-      likes: 2,
-      __v: 0
-    }
-  ]
-
   test('most liked author on big blog list', () => {
-    const result = listHelper.mostLikes(blogs)
+    const result = listHelper.mostLikes(helper.initialBlogs)
     expect(result).toEqual({
       author: 'Edsger W. Dijkstra',
       likes: 17
     })
+  })
+})
+
+beforeEach(async () => {
+  await Blog.deleteMany({})
+
+  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
+})
+
+afterAll(() => {
+  mongoose.connection.close()
+})
+
+describe('api test suit', () => {
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('there are six blogs', async () => {
+    const response = await api.get('/api/blogs')
+
+    expect(response.body.length).toBe(helper.initialBlogs.length)
+  })
+
+  test('verifies that the unique identifier property of blog post is named id', async () => {
+    const response = await api.get('/api/blogs')
+    response.body.map(blog => expect(blog.id).toBeDefined())
+  })
+
+  test('successfully creates a new blog post', async () => {
+    const newBlog = {
+      title: 'El Magico de la programación',
+      author: 'Poncho Alvarez',
+      url:'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+      likes: 235,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
+
+    const titles = blogsAtEnd.map(blog => blog.title)
+    expect(titles).toContain(
+      'El Magico de la programación'
+    )
+  })
+
+  test('if likes property is missing from request will default to 0', async () => {
+    const newBlog = {
+      title: 'El Magico de la programación',
+      author: 'Poncho Alvarez',
+      url:'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html'
+    }
+
+    const createdBlog = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+
+    //await createdBlog.expect(201)
+
+    expect(createdBlog.body.likes).toBeDefined()
+    expect(createdBlog.body.likes).toBe(0)
   })
 })
