@@ -6,6 +6,7 @@ const cors = require('cors')
 const blogsRouter = require('./controllers/blogs')
 const mongoose = require('mongoose')
 const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
 
 logger.info('connecting to', config.MONGODB_URI)
 
@@ -21,5 +22,6 @@ app.use(cors())
 app.use(bodyParser.json())
 
 app.use('/api/blogs', blogsRouter)
+app.use(middleware.errorHandler)
 
 module.exports = app
