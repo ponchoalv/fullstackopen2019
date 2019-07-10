@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import LoginComponents from './components/Login';
 import BlogList from './components/BlogList';
+import BlogForm from './components/BlogForm';
 import blogsService from './services/blogs';
 import loginService from './services/login';
+import Notification from './components/Notification';
 import './App.css';
 
 const App = props => {
   const [blogs, setBlogs] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notificationClassName, setNotificationClassName] = useState(
+    'notification'
+  );
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
+
   const [user, setUser] = useState(null);
+
+  const setNotification = (message, className) => {
+    setNotificationMessage(message);
+    setNotificationClassName(className);
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 5000);
+  };
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser');
@@ -39,10 +56,7 @@ const App = props => {
       setUsername('');
       setPassword('');
     } catch (error) {
-      setErrorMessage('Wrong credentials');
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      setNotification('wrong username or password', 'error');
     }
   };
 
@@ -52,9 +66,55 @@ const App = props => {
     setUser(null);
   };
 
+  const handleBlogChange = name => event => {
+    const value = event.target.value;
+    switch (name) {
+      case 'title':
+        setTitle(value);
+        break;
+      case 'author':
+        setAuthor(value);
+        break;
+      case 'url':
+        setUrl(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const addBlog = async event => {
+    event.preventDefault();
+
+    const blogObject = {
+      title,
+      author,
+      url
+    };
+
+    try {
+      const result = await blogsService.create(blogObject);
+      setBlogs(blogs.concat(result));
+      setNotification(
+        `a new blog ${result.title} by ${result.author} added`,
+        'successful'
+      );
+
+      setTitle('');
+      setAuthor('');
+      setUrl('');
+    } catch (error) {
+      setNotification(`${error.response.data.error}`, 'error');
+    }
+  };
+
   return (
     <div>
-      <h1>Blogs</h1>
+      <h1>blogs</h1>
+      <Notification
+        message={notificationMessage}
+        notificationClassName={notificationClassName}
+      />
       {user === null ? (
         <LoginComponents.Login
           username={username}
@@ -69,6 +129,13 @@ const App = props => {
             {user.name} logged in
             <LoginComponents.Logout logoutHandler={handleLogout} />
           </p>
+          <BlogForm
+            addBlog={addBlog}
+            title={title}
+            author={author}
+            url={url}
+            handleBlogChange={handleBlogChange}
+          />
           <BlogList blogs={blogs} />
         </div>
       )}
