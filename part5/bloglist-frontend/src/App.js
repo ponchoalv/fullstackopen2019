@@ -37,7 +37,9 @@ const App = props => {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
       blogsService.setToken(user.token);
-      blogsService.getAll().then(blogs => setBlogs(blogs));
+      blogsService.getAll().then(blogs => setBlogs(blogs.sort((left, right) => {
+        return right.likes - left.likes;
+      })));
     }
   }, []);
 
@@ -65,6 +67,20 @@ const App = props => {
     window.localStorage.removeItem('loggedNoteappUser');
     blogsService.setToken(null);
     setUser(null);
+  };
+
+  const likeHandler = async id => {
+    const blog = blogs.find(n => n.id === id);
+    const changedBlog = { ...blog, likes: blog.likes + 1 };
+
+    try {
+      await blogsService.update(id, changedBlog);
+      setBlogs(blogs.map(blog => (blog.id !== id ? blog : changedBlog)).sort((left, right) => {
+        return right.likes - left.likes;
+      }));   
+    } catch (error) {
+      setNotification(`${error.response.data.error}`, 'error');
+    }
   };
 
   const handleBlogChange = name => event => {
@@ -139,7 +155,7 @@ const App = props => {
               handleBlogChange={handleBlogChange}
             />
           </Togglable>
-          <BlogList blogs={blogs} />
+          <BlogList blogs={blogs} likeHandler={likeHandler} />
         </div>
       )}
     </div>

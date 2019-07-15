@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import BlogDetail from "./BlogDetail";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, likeHandler }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -17,28 +18,13 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle}>
-      <div onClick={toggleDetails}>
         {!showDetails ? (
-          <div>
+          <div onClick={toggleDetails}>
             {blog.title} {blog.author}
           </div>
         ) : (
-          <div>
-            <div>
-              {blog.title} {blog.author}
-            </div>
-            <div>
-              <a href={blog.url}>{blog.url}</a>
-            </div>
-            <div>
-              {blog.likes} likes<button>like</button>
-            </div>
-            <div>
-              added by {blog.user.name}
-            </div>
-          </div>
+          <BlogDetail blog={blog} showDetailHandler={toggleDetails} likeHandler={likeHandler} />
         )}
-      </div>
     </div>
   );
 };
