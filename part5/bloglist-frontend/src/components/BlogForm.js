@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const BlogForm = ({ addBlog, title, author, url, handleBlogChange }) => (
   <div>
@@ -28,6 +28,6 @@ const BlogForm = ({ addBlog, title, author, url, handleBlogChange }) => (
       <button type="submit">create</button>
     </form>
   </div>
-);
+)
 
-export default BlogForm;
+export default BlogForm
