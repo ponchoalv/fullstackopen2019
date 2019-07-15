@@ -5,6 +5,7 @@ import BlogForm from './components/BlogForm';
 import blogsService from './services/blogs';
 import loginService from './services/login';
 import Notification from './components/Notification';
+import Togglable from './components/Togglable';
 import './App.css';
 
 const App = props => {
@@ -18,8 +19,8 @@ const App = props => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
-
   const [user, setUser] = useState(null);
+  const newBlogFormRef = React.createRef();
 
   const setNotification = (message, className) => {
     setNotificationMessage(message);
@@ -85,7 +86,7 @@ const App = props => {
 
   const addBlog = async event => {
     event.preventDefault();
-
+    newBlogFormRef.current.toggleVisibility();
     const blogObject = {
       title,
       author,
@@ -129,13 +130,15 @@ const App = props => {
             {user.name} logged in
             <LoginComponents.Logout logoutHandler={handleLogout} />
           </p>
-          <BlogForm
-            addBlog={addBlog}
-            title={title}
-            author={author}
-            url={url}
-            handleBlogChange={handleBlogChange}
-          />
+          <Togglable buttonLabel="new note" ref={newBlogFormRef}>
+            <BlogForm
+              addBlog={addBlog}
+              title={title}
+              author={author}
+              url={url}
+              handleBlogChange={handleBlogChange}
+            />
+          </Togglable>
           <BlogList blogs={blogs} />
         </div>
       )}
