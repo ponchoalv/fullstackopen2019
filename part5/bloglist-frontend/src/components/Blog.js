@@ -19,7 +19,7 @@ const Blog = ({ blog, likeHandler, removeHandler, user }) => {
   return (
     <div style={blogStyle}>
       {!showDetails ? (
-        <div onClick={toggleDetails}>
+        <div onClick={toggleDetails} className="togglableTitle">
           {blog.title} {blog.author}
         </div>
       ) : (
