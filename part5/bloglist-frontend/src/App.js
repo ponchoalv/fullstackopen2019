@@ -6,6 +6,7 @@ import blogsService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import { useField } from './hooks'
 import './App.css'
 
 const App = () => {
@@ -14,11 +15,11 @@ const App = () => {
   const [notificationClassName, setNotificationClassName] = useState(
     'notification'
   )
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const username = useField('text')
+  const password = useField('password')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
   const [user, setUser] = useState(null)
   const newBlogFormRef = React.createRef()
 
@@ -47,8 +48,8 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username,
-        password
+        username: username.value,
+        password: password.value
       })
 
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
@@ -56,8 +57,8 @@ const App = () => {
       setUser(user)
       const blogs = await blogsService.getAll()
       setBlogs(blogs)
-      setUsername('')
-      setPassword('')
+      username.clear.clear()
+      password.clear.clear()
     } catch (error) {
       setNotification('wrong username or password', 'error')
     }
@@ -101,30 +102,13 @@ const App = () => {
 
   }
 
-  const handleBlogChange = name => event => {
-    const value = event.target.value
-    switch (name) {
-    case 'title':
-      setTitle(value)
-      break
-    case 'author':
-      setAuthor(value)
-      break
-    case 'url':
-      setUrl(value)
-      break
-    default:
-      break
-    }
-  }
-
   const addBlog = async event => {
     event.preventDefault()
     newBlogFormRef.current.toggleVisibility()
     const blogObject = {
-      title,
-      author,
-      url
+      title: title.value,
+      author: author.value,
+      url: url.value
     }
 
     try {
@@ -135,9 +119,9 @@ const App = () => {
         'successful'
       )
 
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+      title.clear.clear()
+      author.clear.clear()
+      url.clear.clear()
     } catch (error) {
       setNotification(`${error.response.data.error}`, 'error')
     }
@@ -155,8 +139,6 @@ const App = () => {
           username={username}
           password={password}
           loginHandle={handleLoging}
-          setPassword={setPassword}
-          setUsername={setUsername}
         />
       ) : (
         <div>
@@ -170,7 +152,6 @@ const App = () => {
               title={title}
               author={author}
               url={url}
-              handleBlogChange={handleBlogChange}
             />
           </Togglable>
           <BlogList blogs={blogs} likeHandler={likeHandler} removeHandler={removeHandler} user={user}/>

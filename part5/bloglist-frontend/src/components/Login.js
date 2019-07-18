@@ -1,10 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 const Login = ({
   username,
   password,
-  setUsername,
-  setPassword,
   loginHandle
 }) => {
   return (
@@ -14,29 +12,23 @@ const Login = ({
         <div>
           username
           <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
+            {...username}
           />
         </div>
         <div>
           password
           <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
+            {...password}
           />
         </div>
         <button type="submit">login</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
 const Logout = ({ logoutHandler }) => (
   <button onClick={logoutHandler}>logout</button>
-);
+)
 
-export default { Login, Logout };
+export default { Login, Logout }
