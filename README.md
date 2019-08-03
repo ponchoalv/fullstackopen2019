@@ -21,3 +21,7 @@ Course material: [https://fullstackopen.com/](https://fullstackopen.com/)
 
 ## Part 4
 1. [BlogList](part4/blog-list)
+
+## Part 5
+1. [BlogList Front End](part5/bloglist-frontend)
+2. [Custom Hooks](part5/custom-hooks)
