@@ -30,10 +30,10 @@ const removeNotification = () => {
   };
 };
 
-export const notify = (message, store) => {
-  store.dispatch(notifyAction(message));
+export const notify = (message, dispatch) => {
+  dispatch(notifyAction(message));
   setTimeout(() => {
-    store.dispatch(removeNotification());
+    dispatch(removeNotification());
   }, 5000);
 };
 
