@@ -1,5 +1,6 @@
 import React from 'react';
 import { newAnecdote } from '../reducers/anecdoteReducer';
+import { notify } from '../reducers/notificationReducer';
 
 const AnecdoteForm = props => {
   const submitNewAnecdote = event => {
@@ -7,6 +8,8 @@ const AnecdoteForm = props => {
     const anecdote = event.target.anecdote.value;
     event.target.anecdote.value = '';
     props.store.dispatch(newAnecdote(anecdote));
+    const notifyMessage = `you created '${anecdote}'`;
+    notify(notifyMessage, props.store)
   };
 
   return (
