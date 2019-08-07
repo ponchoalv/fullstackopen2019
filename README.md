@@ -25,3 +25,7 @@ Course material: [https://fullstackopen.com/](https://fullstackopen.com/)
 ## Part 5
 1. [BlogList Front End](part5/bloglist-frontend)
 2. [Custom Hooks](part5/custom-hooks)
+
+## Part 6
+1. [Unicafe Redux](part6/unicafe-redux)
+2. [Anecdotes Redux](part6/redux-anecdotes)
