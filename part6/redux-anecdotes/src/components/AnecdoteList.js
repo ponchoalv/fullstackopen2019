@@ -27,7 +27,7 @@ const mapDispatchToProps = dispatch => {
     vote: (message, id) => {
       const notification = `you voted '${message}'`;
       dispatch(voteUp(id));
-      notify(notification, dispatch);
+      dispatch(notify(notification, 5));
     }
   };
 };
