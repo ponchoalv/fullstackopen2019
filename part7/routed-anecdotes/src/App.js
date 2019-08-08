@@ -75,7 +75,7 @@ const Footer = () => (
   </div>
 );
 
-const CreateNew = props => {
+const CreateNewNoHistory = props => {
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
@@ -88,6 +88,7 @@ const CreateNew = props => {
       info,
       votes: 0
     });
+    props.history.push("/");
   };
 
   return (
@@ -123,6 +124,9 @@ const CreateNew = props => {
     </div>
   );
 };
+
+const CreateNew = withRouter(CreateNewNoHistory);
+
 const Anecdote = ({ anecdote }) => (
   <div>
     <h2>
@@ -153,11 +157,15 @@ const App = () => {
     }
   ]);
 
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState(null);
 
   const addNew = anecdote => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
     setAnecdotes(anecdotes.concat(anecdote));
+    setNotification(`a new anecdote ${anecdote.content} created!`);
+    setTimeout(() => {
+      setNotification(null);
+    }, 10 * 1000);
   };
 
   const anecdoteById = id => anecdotes.find(a => a.id === id);
@@ -178,6 +186,7 @@ const App = () => {
       <h1>Software anecdotes</h1>
       <Router>
         <Menu />
+        {notification}
         <Route
           exact
           path="/"
