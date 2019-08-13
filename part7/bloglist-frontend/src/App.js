@@ -5,14 +5,19 @@ import BlogForm from "./components/BlogForm";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import Users from "./components/Users";
 import blogsService from "./services/blogs";
 import { useField } from "./hooks";
 import { connect } from "react-redux";
 import { initializeBlogs, newBlog } from "./reducers/blogsReducer";
 import { notify } from "./reducers/notificationReducer";
-import { registerUser, removeUser} from "./reducers/userReducer";
+import { registerUser, removeUser } from "./reducers/userReducer";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { setUserList } from "./reducers/userBlogsReducer";
 
 import "./App.css";
+import UserDetails from "./components/UserDetails";
+import BlogDetail from "./components/BlogDetail";
 
 const App = props => {
   const username = useField("text");
@@ -22,7 +27,8 @@ const App = props => {
   const url = useField("text");
   const newBlogFormRef = React.createRef();
   const signUser = props.registerUser;
-  const initBlogs = props.initializeBlogs; 
+  const initBlogs = props.initializeBlogs;
+  const setUsers = props.setUserList;
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -31,8 +37,9 @@ const App = props => {
       const user = JSON.parse(loggedUserJSON);
       signUser(user);
       initBlogs(user.token);
+      setUsers();
     }
-  }, [signUser, initBlogs]);
+  }, [signUser, initBlogs, setUsers]);
 
   const handleLoging = async event => {
     event.preventDefault();
@@ -98,15 +105,36 @@ const App = props => {
             {props.user.name} logged in
             <LoginComponents.Logout logoutHandler={handleLogout} />
           </p>
-          <Togglable buttonLabel="new blog" ref={newBlogFormRef}>
-            <BlogForm
-              addBlog={addBlog}
-              title={title}
-              author={author}
-              url={url}
+          <Router>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <div>
+                  <Togglable buttonLabel="new blog" ref={newBlogFormRef}>
+                    <BlogForm
+                      addBlog={addBlog}
+                      title={title}
+                      author={author}
+                      url={url}
+                    />
+                  </Togglable>
+                  <BlogList user={props.user} />
+                </div>
+              )}
             />
-          </Togglable>
-          <BlogList user={props.user} />
+            <Route exact path="/users" render={() => <Users />} />
+            <Route
+              exact
+              path="/users/:id"
+              render={({ match }) => <UserDetails userId={match.params.id} />}
+            />
+            <Route
+              exact
+              path="/blogs/:id"
+              render={({ match }) => <BlogDetail blogId={match.params.id} />}
+            />
+          </Router>
         </div>
       )}
     </div>
@@ -115,16 +143,17 @@ const App = props => {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
-  }
-}
+    user: state.user
+  };
+};
 
 const mapDispatchToProps = {
   initializeBlogs,
   newBlog,
   notify,
   registerUser,
-  removeUser
+  removeUser,
+  setUserList
 };
 
 export default connect(

@@ -1,32 +1,22 @@
-import React, { useState } from 'react'
-import BlogDetail from './BlogDetail'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Blog = ({ blog, likeHandler, removeHandler, user }) => {
+const Blog = ({ blog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: 'solid',
+    border: "solid",
     borderWidth: 1,
     marginBottom: 5
-  }
-
-  const [showDetails, setShowDetails] = useState(false)
-
-  const toggleDetails = () => {
-    setShowDetails(!showDetails)
-  }
+  };
 
   return (
     <div style={blogStyle}>
-      {!showDetails ? (
-        <div onClick={toggleDetails} className="togglableTitle">
-          {blog.title} {blog.author}
-        </div>
-      ) : (
-        <BlogDetail blog={blog} showDetailHandler={toggleDetails} user={user}/>
-      )}
+      <Link to={`/blogs/${blog.id}`}>
+        {blog.title} {blog.author}
+      </Link>
     </div>
-  )
-}
+  );
+};
 
-export default Blog
+export default Blog;
