@@ -1,34 +1,43 @@
-import React from 'react'
+import React from "react";
+import { loginUser } from "../reducers/userReducer";
+import { connect } from "react-redux";
 
-const Login = ({
-  username,
-  password,
-  loginHandle
-}) => {
+
+const Login = props => {
+  const loginHandle = event => {
+    event.preventDefault();
+    const username = event.target.username.value;
+    const password = event.target.password.value;
+
+    event.target.username.value = "";
+    event.target.password.value = "";
+    props.login(username, password);
+    
+  };
+
   return (
     <div>
       <h2>Log in to application</h2>
       <form onSubmit={loginHandle}>
         <div>
           username
-          <input
-            {...username}
-          />
+          <input type="text" name="username" />
         </div>
         <div>
           password
-          <input
-            {...password}
-          />
+          <input type="password" name="password" />
         </div>
         <button type="submit">login</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-const Logout = ({ logoutHandler }) => (
-  <button onClick={logoutHandler}>logout</button>
-)
+const mapDispatchToProps = {
+  login: loginUser
+};
 
-export default { Login, Logout }
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);
