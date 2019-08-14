@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { like, deleteBlog } from "../reducers/blogsReducer";
 import { notify } from "../reducers/notificationReducer";
+import Comments from "./Comments";
 
 const BlogDetail = props => {
 if(props.blog === undefined) {
@@ -28,6 +29,7 @@ if(props.blog === undefined) {
           </button>
         </div>
       )}
+      <Comments blogId={props.blog.id} />
     </div>
   );
 };
