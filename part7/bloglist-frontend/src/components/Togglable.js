@@ -28,9 +28,9 @@ const Togglable = React.forwardRef((props, ref) => {
   })
 
   return (
-    <Container  component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div style={hideWhenVisible} >
+      <div style={hideWhenVisible}>
         <div>
           <Button
             type="submit"
@@ -47,15 +47,15 @@ const Togglable = React.forwardRef((props, ref) => {
       <div style={showWhenVisible}>
         {props.children}
         <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.togleButton}
-            onClick={toggleVisibility}
-          >
-            cancel
-          </Button>
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="secondary"
+          className={classes.togleButton}
+          onClick={toggleVisibility}
+        >
+          cancel
+        </Button>
       </div>
     </Container>
   )

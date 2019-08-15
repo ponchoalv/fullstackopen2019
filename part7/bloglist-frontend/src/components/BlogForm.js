@@ -41,7 +41,7 @@ const BlogForm = props => {
       author: event.target.author.value,
       url: event.target.url.value
     }
-    
+
     try {
       props.newBlog(blogObject)
       props.notify(
@@ -115,7 +115,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   newBlog,
-  notify,
+  notify
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlogForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BlogForm)

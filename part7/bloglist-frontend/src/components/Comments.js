@@ -17,10 +17,10 @@ const useStyles = makeStyles(theme => ({
   form: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   },
   card: {
-    maxWidth: "80%",
+    maxWidth: '80%',
     marginTop: theme.spacing(1),
     marginLeft: theme.spacing(1)
   },
@@ -39,7 +39,7 @@ const Comments = props => {
   }
 
   return (
-    <Container className={classes.container}> 
+    <Container className={classes.container}>
       <CssBaseline />
       <Typography component="h4" variant="h4">
         Comments

@@ -47,10 +47,14 @@ const UserDetails = props => {
                 <Avatar>B</Avatar>
               </ListItemAvatar>
               <ListItemText>
-              <Link component={RouterLink} to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                <Link component={RouterLink} to={`/blogs/${blog.id}`}>
+                  {blog.title}
+                </Link>
               </ListItemText>
             </ListItem>
-            {index !== props.user.blogs.length - 1 && <Divider variant="inset" component="li" />}
+            {index !== props.user.blogs.length - 1 && (
+              <Divider variant="inset" component="li" />
+            )}
           </div>
         ))}
       </List>

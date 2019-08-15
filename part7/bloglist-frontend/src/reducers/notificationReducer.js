@@ -1,45 +1,45 @@
 const initialState = {
-  message: "",
+  message: '',
   show: false,
-  notificationClassName: "success"
-};
+  notificationClassName: 'success'
+}
 
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "NOTIFY":
-      return {
-        message: action.message,
-        show: true,
-        notificationClassName: action.className
-      };
-    case "REMOVE":
-      return initialState;
-    default:
-      return state;
+  case 'NOTIFY':
+    return {
+      message: action.message,
+      show: true,
+      notificationClassName: action.className
+    }
+  case 'REMOVE':
+    return initialState
+  default:
+    return state
   }
-};
+}
 
 const notifyAction = (message, className) => {
   return {
-    type: "NOTIFY",
+    type: 'NOTIFY',
     message,
     className
-  };
-};
+  }
+}
 
 export const removeNotification = () => {
   return {
-    type: "REMOVE"
-  };
-};
+    type: 'REMOVE'
+  }
+}
 
 export const notify = (message, className, seconds) => {
   return async dispatch => {
-    dispatch(notifyAction(message, className));
+    dispatch(notifyAction(message, className))
     setTimeout(() => {
-      dispatch(removeNotification());
-    }, seconds * 1000);
-  };
-};
+      dispatch(removeNotification())
+    }, seconds * 1000)
+  }
+}
 
-export default notificationReducer;
+export default notificationReducer

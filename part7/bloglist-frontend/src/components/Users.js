@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link as RouterLink} from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
@@ -28,28 +28,33 @@ const Users = props => {
 
   return (
     <Container>
-      <Typography component="h2" variant="h4">Users</Typography>
+      <Typography component="h2" variant="h4">
+        Users
+      </Typography>
       <Paper className={classes.root}>
-      <Table className={classes.table}>
-        
-      <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell align="left">blogs created</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.users &&
-            props.users.map(user => (
-              <TableRow  key={user.username}>
-                <TableCell component="th" scope="row">
-                  <Link component={RouterLink} to={`/users/${user.id}`}>{user.name}</Link>
-                </TableCell>
-                <TableCell component="th" scope="row">{user.blogs.length}</TableCell>
-              </TableRow >
-            ))}
-        </TableBody>
-      </Table>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell align="left">blogs created</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.users &&
+              props.users.map(user => (
+                <TableRow key={user.username}>
+                  <TableCell component="th" scope="row">
+                    <Link component={RouterLink} to={`/users/${user.id}`}>
+                      {user.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {user.blogs.length}
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
       </Paper>
     </Container>
   )
