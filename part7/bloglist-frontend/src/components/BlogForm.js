@@ -1,11 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import { connect } from 'react-redux'
+import { notify } from '../reducers/notificationReducer'
+import { newBlog } from '../reducers/blogsReducer'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -27,8 +29,34 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const BlogForm = ({ addBlog, title, author, url }) => {
+const BlogForm = props => {
   const classes = useStyles()
+
+  const addBlog = async event => {
+    event.preventDefault()
+    props.newBlogFormRef.current.toggleVisibility()
+
+    const blogObject = {
+      title: event.target.title.value,
+      author: event.target.author.value,
+      url: event.target.url.value
+    }
+    
+    try {
+      props.newBlog(blogObject)
+      props.notify(
+        `a new blog ${blogObject.title} by ${blogObject.author} added`,
+        'success',
+        3
+      )
+
+      event.target.title.value = ''
+      event.target.author.value = ''
+      event.target.url.value = ''
+    } catch (error) {
+      props.notify(`${error.response.data.error}`, 'error', 3)
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -46,9 +74,7 @@ const BlogForm = ({ addBlog, title, author, url }) => {
             label="Title"
             name="title"
             autoFocus
-            {...title}
           />
-
           <TextField
             margin="normal"
             required
@@ -56,10 +82,7 @@ const BlogForm = ({ addBlog, title, author, url }) => {
             id="author"
             label="Author"
             name="author"
-            autoFocus
-            {...author}
           />
-
           <TextField
             margin="normal"
             required
@@ -67,8 +90,6 @@ const BlogForm = ({ addBlog, title, author, url }) => {
             id="url"
             label="Url"
             name="url"
-            autoFocus
-            {...url}
           />
 
           <Button
@@ -77,7 +98,8 @@ const BlogForm = ({ addBlog, title, author, url }) => {
             variant="contained"
             color="primary"
             className={classes.submit}
-          >create
+          >
+            create
           </Button>
         </form>
       </div>
@@ -85,11 +107,15 @@ const BlogForm = ({ addBlog, title, author, url }) => {
   )
 }
 
-BlogForm.propTypes = {
-  addBlog: PropTypes.func.isRequired,
-  title: PropTypes.object.isRequired,
-  author: PropTypes.object.isRequired,
-  url: PropTypes.object.isRequired
+const mapStateToProps = (state, ownProps) => {
+  return {
+    newBlogFormRef: ownProps.newBlogFormRef
+  }
 }
 
-export default BlogForm
+const mapDispatchToProps = {
+  newBlog,
+  notify,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlogForm)

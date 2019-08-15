@@ -7,7 +7,8 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = drawerWidth =>
   makeStyles(theme => ({
     root: {
-      display: 'flex'
+      display: 'flex',
+      marginTop: theme.spacing(8),
     },
     drawerHeader: {
       display: 'flex',

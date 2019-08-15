@@ -36,7 +36,7 @@ const UserDetails = props => {
       <Typography component="h4" variant="h4">
         {props.user.name}
       </Typography>
-      <Typography component="h6" variant="h6">
+      <Typography component="h6" variant="subtitle1">
         added blogs
       </Typography>
       <List className={classes.root}>
