@@ -1,4 +1,5 @@
 import blogsService from '../services/blogs'
+import {notify} from './notificationReducer'
 
 const sortLikes = (firstEl, secondEl) => {
   return secondEl.likes - firstEl.likes
@@ -6,14 +7,19 @@ const sortLikes = (firstEl, secondEl) => {
 
 export const like = id => {
   return async dispatch => {
-    const blog = await blogsService.getById(id)
-    const newBlog = { ...blog, likes: blog.likes + 1 }
-    const response = await blogsService.update(id, newBlog)
-    const updatedBlog = { ...response, user: newBlog.user }
-    dispatch({
-      type: 'LIKE',
-      updatedBlog
-    })
+    try {
+      const blog = await blogsService.getById(id)
+      const newBlog = { ...blog, likes: blog.likes + 1 }
+      blogsService.update(id, newBlog)
+  
+      dispatch({
+        type: 'LIKE',
+        newBlog
+      })
+    } catch (error) {
+      dispatch(notify("Something went wrong while tryng to send a Link, try again later", 'error', 5))
+    }
+  
   }
 }
 
@@ -68,7 +74,7 @@ const reducer = (state = [], action) => {
   switch (action.type) {
   case 'LIKE':
     const newState = state.map(blog =>
-      blog.id !== action.updatedBlog.id ? blog : action.updatedBlog
+      blog.id !== action.newBlog.id ? blog : action.newBlog
     )
     return newState.sort(sortLikes)
   case 'NEW_BLOG':

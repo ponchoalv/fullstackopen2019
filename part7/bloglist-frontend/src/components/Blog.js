@@ -1,26 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
+import Link from '@material-ui/core/Link'
+import Paper from '@material-ui/core/Paper'
+import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Avatar from '@material-ui/core/Avatar'
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     overflow: 'hidden',
-    padding: theme.spacing(0, 3),
+    padding: theme.spacing(0, 3)
   },
   paper: {
     maxWidth: 400,
     margin: `${theme.spacing(1)}px auto`,
-    padding: theme.spacing(2),
-  },
-}));
+    padding: theme.spacing(2)
+  }
+}))
 
 const Blog = ({ blog }) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -30,12 +30,14 @@ const Blog = ({ blog }) => {
             <Avatar>B</Avatar>
           </Grid>
           <Grid item xs zeroMinWidth>
-            <Typography noWrap component={Link} to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Typography>
+            <Link component={RouterLink} to={`/blogs/${blog.id}`}>
+              {blog.title} {blog.author}
+            </Link>
           </Grid>
         </Grid>
       </Paper>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog
