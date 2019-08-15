@@ -1,7 +1,7 @@
 const initialState = {
   message: "",
   show: false,
-  notificationClassName: "successful"
+  notificationClassName: "success"
 };
 
 const notificationReducer = (state = initialState, action) => {
@@ -27,7 +27,7 @@ const notifyAction = (message, className) => {
   };
 };
 
-const removeNotification = () => {
+export const removeNotification = () => {
   return {
     type: "REMOVE"
   };
