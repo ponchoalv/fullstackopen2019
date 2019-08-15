@@ -15,7 +15,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { setUserList } from './reducers/userBlogsReducer'
 import { setTitle } from './reducers/drawerReducer'
 
-import './App.css'
 import UserDetails from './components/UserDetails'
 import BlogDetail from './components/BlogDetail'
 import AppContent from './components/AppContent'
