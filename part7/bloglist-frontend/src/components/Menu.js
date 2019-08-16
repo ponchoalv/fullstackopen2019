@@ -25,41 +25,58 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 const useStyles = (drawerWidth) => makeStyles(theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
   },
   appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
   appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
-    })
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: 36,
   },
   hide: {
-    display: 'none'
+    display: 'none',
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
   },
-  drawerPaper: {
-    width: drawerWidth
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
-  drawerHeader: {
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9) + 1,
+    },
+  },
+  toolbar: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end'
   }
 }))
 
@@ -93,15 +110,20 @@ const Menu = props => {
         </Toolbar>
       </AppBar>
       <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: props.drawer.open,
+          [classes.drawerClose]: !props.drawer.open,
+        })}
+        variant="permanent"
         open={props.drawer.open}
         classes={{
-          paper: classes.drawerPaper
+          paper: clsx({
+            [classes.drawerOpen]: props.drawer.open,
+            [classes.drawerClose]: !props.drawer.open,
+          }),
         }}
       >
-        <div className={classes.drawerHeader}>
+        <div className={classes.toolbar}>
           <IconButton onClick={props.closeDrawer}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />

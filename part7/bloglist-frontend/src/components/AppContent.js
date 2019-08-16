@@ -31,7 +31,7 @@ const useStyles = drawerWidth =>
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen
       }),
-      marginLeft: 0
+      marginLeft: theme.spacing(3)
     }
   }))
 

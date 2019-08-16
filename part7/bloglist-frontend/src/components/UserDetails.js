@@ -15,12 +15,14 @@ import Link from '@material-ui/core/Link'
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    maxWidth: 600,
     marginTop: theme.spacing(2)
   },
   inline: {
     display: 'inline'
+  },
+  list: {
+    backgroundColor: theme.palette.background.paper,
   }
 }))
 
@@ -32,14 +34,14 @@ const UserDetails = props => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" className={classes.root}>
       <Typography component="h4" variant="h4">
         {props.user.name}
       </Typography>
       <Typography component="h6" variant="subtitle1">
         added blogs
       </Typography>
-      <List className={classes.root}>
+      <List className={classes.list}>
         {props.user.blogs.map((blog, index) => (
           <div key={blog.id}>
             <ListItem alignItems="flex-start">

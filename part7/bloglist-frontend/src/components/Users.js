@@ -14,9 +14,14 @@ import Link from '@material-ui/core/Link'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-    overflowX: 'auto'
+    flexGrow: 1,
+    overflow: 'hidden',
+    padding: theme.spacing(0, 3),
+    maxWidth: 600
+  },
+  paper: {
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2)
   },
   table: {
     minWidth: 240
@@ -27,11 +32,11 @@ const Users = props => {
   const classes = useStyles()
 
   return (
-    <Container>
+    <Container className={classes.root}>
       <Typography component="h2" variant="h4">
         Users
       </Typography>
-      <Paper className={classes.root}>
+      <Paper className={classes.paper}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
