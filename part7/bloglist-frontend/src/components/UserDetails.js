@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     display: 'inline'
   },
   list: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   }
 }))
 

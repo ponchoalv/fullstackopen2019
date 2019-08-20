@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import TrashIcon from '@material-ui/icons/Delete'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   card: {
     minWidth: 275
   },
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   likes: {
     marginBottom: 4
   }
-}))
+})
 
 const BlogDetail = props => {
   const classes = useStyles()
@@ -39,7 +39,7 @@ const BlogDetail = props => {
   }
 
   return (
-    <Container className={classes.root}>
+    <Container maxWidth="sm">
       <CssBaseline />
       <Card className={classes.card}>
         <CardContent>

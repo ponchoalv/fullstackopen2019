@@ -23,62 +23,69 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-const useStyles = (drawerWidth) => makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
+const useStyles = drawerWidth =>
+  makeStyles(theme => ({
+    root: {
+      display: 'flex'
     },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  }
-}))
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      })
+    },
+    appBarShift: {
+      marginLeft: drawerWidth,
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen
+      })
+    },
+    menuButton: {
+      marginRight: 36
+    },
+    hide: {
+      display: 'none'
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+      whiteSpace: 'nowrap'
+    },
+    drawerOpen: {
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen
+      })
+    },
+    drawerClose: {
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      overflowX: 'hidden',
+      width: theme.spacing(7) + 1,
+      [theme.breakpoints.up('sm')]: {
+        width: theme.spacing(9) + 1
+      }
+    },
+    toolbar: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      padding: '0 8px',
+      ...theme.mixins.toolbar
+    },
+    title: {
+      flexGrow:3
+    },
+    loginInfo: {
+      flexGrow: 1
+    }
+  }))
 
 const Menu = props => {
   const classes = useStyles(props.drawer.width)()
@@ -100,27 +107,34 @@ const Menu = props => {
             aria-label="open drawer"
             onClick={props.openDrawer}
             edge="start"
-            className={clsx(classes.menuButton, props.drawer.open && classes.hide)}
+            className={clsx(
+              classes.menuButton,
+              props.drawer.open && classes.hide
+            )}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h5" noWrap className={classes.title}>
             {props.drawer.title}
+          </Typography>
+          <div></div>
+          <Typography variant="subtitle2" className={classes.loginInfo}>
+            {props.user.name} is logged in
           </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: props.drawer.open,
-          [classes.drawerClose]: !props.drawer.open,
+          [classes.drawerClose]: !props.drawer.open
         })}
         variant="permanent"
         open={props.drawer.open}
         classes={{
           paper: clsx({
             [classes.drawerOpen]: props.drawer.open,
-            [classes.drawerClose]: !props.drawer.open,
-          }),
+            [classes.drawerClose]: !props.drawer.open
+          })
         }}
       >
         <div className={classes.toolbar}>
@@ -164,7 +178,7 @@ const Menu = props => {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    drawer: state.drawer,
+    drawer: state.drawer
   }
 }
 
