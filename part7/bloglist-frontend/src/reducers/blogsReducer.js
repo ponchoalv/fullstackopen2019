@@ -1,5 +1,6 @@
 import blogsService from '../services/blogs'
 import { notify } from './notificationReducer'
+import { setUserList } from './userBlogsReducer'
 
 const sortLikes = (firstEl, secondEl) => {
   return secondEl.likes - firstEl.likes
@@ -11,7 +12,6 @@ export const like = id => {
       const blog = await blogsService.getById(id)
       const newBlog = { ...blog, likes: blog.likes + 1 }
       blogsService.update(id, newBlog)
-
       dispatch({
         type: 'LIKE',
         newBlog
@@ -30,11 +30,23 @@ export const like = id => {
 
 export const newBlog = content => {
   return async dispatch => {
-    const response = await blogsService.create(content)
-    dispatch({
-      type: 'NEW_BLOG',
-      data: response
-    })
+    try {
+      const response = await blogsService.create(content)
+      dispatch({
+        type: 'NEW_BLOG',
+        data: response
+      })
+      dispatch(
+        notify(
+          `a new blog ${content.title} by ${content.author} added`,
+          'success',
+          3
+        )
+      )
+      dispatch(setUserList())
+    } catch (error) {
+      dispatch(notify(`${error.response.data.error}`, 'error', 3))
+    }
   }
 }
 

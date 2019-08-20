@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { connect } from 'react-redux'
-import { notify } from '../reducers/notificationReducer'
 import { newBlog } from '../reducers/blogsReducer'
 
 const useStyles = makeStyles(theme => ({
@@ -41,21 +40,10 @@ const BlogForm = props => {
       author: event.target.author.value,
       url: event.target.url.value
     }
-
-    try {
-      props.newBlog(blogObject)
-      props.notify(
-        `a new blog ${blogObject.title} by ${blogObject.author} added`,
-        'success',
-        3
-      )
-
-      event.target.title.value = ''
-      event.target.author.value = ''
-      event.target.url.value = ''
-    } catch (error) {
-      props.notify(`${error.response.data.error}`, 'error', 3)
-    }
+    props.newBlog(blogObject)
+    event.target.title.value = ''
+    event.target.author.value = ''
+    event.target.url.value = ''
   }
 
   return (
@@ -114,8 +102,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = {
-  newBlog,
-  notify
+  newBlog
 }
 
 export default connect(

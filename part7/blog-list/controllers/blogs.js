@@ -36,7 +36,15 @@ blogsRouter.post('/', async (request, response, next) => {
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
-    response.status(201).json(savedBlog)
+
+    const fetchedBlog = await Blog.findById(savedBlog._id)
+      .populate('user', {
+        username: 1,
+        name: 1
+      })
+      .populate('comments', { message: 1 })
+
+    response.status(201).json(fetchedBlog)
   } catch (error) {
     next(error)
   }
@@ -74,8 +82,8 @@ blogsRouter.get('/:id', async (request, response, next) => {
         username: 1,
         name: 1
       })
-      .populate('comments', { message: 1 });
-      
+      .populate('comments', { message: 1 })
+
     response.json(blog)
   } catch (error) {
     next(error)

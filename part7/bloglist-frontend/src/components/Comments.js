@@ -55,7 +55,7 @@ const Comments = props => {
           name="message"
           autoFocus
         />
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" type="submit">
           add comment
         </Button>
       </form>
